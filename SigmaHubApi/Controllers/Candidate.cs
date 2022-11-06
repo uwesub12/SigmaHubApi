@@ -4,7 +4,6 @@ using SigmaHubApi.Interface;
 using SigmaHubApi.Modal;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
 
@@ -41,12 +40,9 @@ namespace SigmaHubApi.Controllers
                 {
                     return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Last Name should Contain letters" });
                 }
-                else if (candidate.PhoneNumber != null)
+                else if (candidate.PhoneNumber.Length != 10)
                 {
-                    if (candidate.PhoneNumber.Length < 10)
-                    {
-                        return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Invalid Length of Phone Number" });
-                    }
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Invalid Length of Phone Number (Should be 10 {0XXXXXXXXX})" });
                 }
                 else if (Helpers.CheckDigit(candidate.PhoneNumber) == false)
                 {
@@ -62,7 +58,7 @@ namespace SigmaHubApi.Controllers
                 }
                 else if (string.IsNullOrWhiteSpace(candidate.FreeTextComment))
                 {
-                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Cif Number should not be empty" });
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, FreeTextComment should not be empty" });
                 }
                 else
                 {
@@ -82,7 +78,7 @@ namespace SigmaHubApi.Controllers
                     else
                     {
                         return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Fail to Modify Profile " });
-                    }
+                    }                   
                 }
             }
             catch (Exception ex)
