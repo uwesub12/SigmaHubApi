@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SigmaHubApi.Helper;
 using SigmaHubApi.Interface;
 using SigmaHubApi.Modal;
 using System;
@@ -26,34 +27,61 @@ namespace SigmaHubApi.Controllers
             {
                 if (string.IsNullOrWhiteSpace(candidate.FirstName))
                 {
-                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Cif Number should not be empty" });
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, First Name should not be empty" });
+                }
+                else if (Helpers.CheckCharacter(candidate.FirstName) == false)
+                {
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, First Name should Contain letters" });
                 }
                 else if (string.IsNullOrWhiteSpace(candidate.LastName))
                 {
-                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Cif Number should not be empty" });
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Last Name should not be empty" });
+                }
+                else if (Helpers.CheckCharacter(candidate.LastName) == false)
+                {
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Last Name should Contain letters" });
+                }
+                else if (candidate.PhoneNumber != null)
+                {
+                    if (candidate.PhoneNumber.Length < 10)
+                    {
+                        return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Invalid Length of Phone Number" });
+                    }
+                }
+                else if (Helpers.CheckDigit(candidate.PhoneNumber) == false)
+                {
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Phone Number allow only Digits" });
                 }
                 else if (string.IsNullOrWhiteSpace(candidate.Email))
                 {
-                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Cif Number should not be empty" });
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Email should not be Empty" });
+                }
+                else if (Helpers.validateEmail(candidate.Email) == false)
+                {
+                    return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Invalid Email Address" });
                 }
                 else if (string.IsNullOrWhiteSpace(candidate.FreeTextComment))
                 {
                     return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Cif Number should not be empty" });
-                }               
+                }
                 else
                 {
                     var result = await _JobCandidate.EnrolCandicateToCsv(candidate);
                     if (result == 0)
                     {
-                        return Ok(new Response { Code = ResponseCode.Existance, Message = "Fail to add Information" });
+                        return Ok(new Response { Code = ResponseCode.Existance, Message = "Fail to add Profile" });
                     }
-                    if (result == 1)
+                    else if (result == 1)
                     {
-                        return Ok(new ResponseData { Code = ResponseCode.Successfull, Message = "successfully", Result = result });
+                        return Ok(new ResponseData { Code = ResponseCode.Successfull, Message = "successfully Updated", Result = result });
+                    }
+                    else if (result == 2)
+                    {
+                        return Ok(new ResponseData { Code = ResponseCode.Successfull, Message = "successfully Added", Result = result });
                     }
                     else
                     {
-                        return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Fail to Modify Customer " });
+                        return Ok(new Response { Code = ResponseCode.InvalidInput, Message = "Sorry, Fail to Modify Profile " });
                     }
                 }
             }

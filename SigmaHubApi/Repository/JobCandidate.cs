@@ -1,10 +1,12 @@
-﻿using Dapper;
+﻿using CsvHelper;
+using Dapper;
 using SigmaHubApi.Helper;
 using SigmaHubApi.Interface;
 using SigmaHubApi.Modal;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,15 +26,41 @@ namespace SigmaHubApi.Repository
         {
             try
             {
-                string separator = ",";
-                StringBuilder outString = new StringBuilder();
-                string fileLocation = AppDomain.CurrentDomain.BaseDirectory + "StoredCandidate.csv";                
-                string[] newLine = { candidateInfor.FirstName, candidateInfor.LastName,
+                bool Found = false;
+                string fileLocation = AppDomain.CurrentDomain.BaseDirectory + "StoredCandidate.csv";
+                string[] dataList = File.ReadAllLines(fileLocation);
+                int col = 0;
+                foreach (var Data in dataList)
+                {
+                    if (Data.Contains(candidateInfor.Email))
+                    {
+                        Found = true;
+                        break;
+                    }
+                    else
+                    {
+                        col++;
+                    }
+                }
+                if (Found == true)
+                {
+                    dataList[col] = dataList[col].Split(',')[0] + candidateInfor.FirstName + "," + candidateInfor.LastName + "," 
+                        + candidateInfor.PhoneNumber + "," + candidateInfor.Email + "," + candidateInfor.TimeInterval + "," 
+                        + candidateInfor.LinkedInURL + "," + candidateInfor.GitHubURL + "," + candidateInfor.FreeTextComment;
+                    File.WriteAllLines(fileLocation , dataList);
+                    return 1;
+                }
+                else
+                {
+                    string separator = ",";
+                    StringBuilder outString = new StringBuilder();
+                    string[] newLine = { candidateInfor.FirstName, candidateInfor.LastName,
                                     candidateInfor.PhoneNumber, candidateInfor.Email, candidateInfor.TimeInterval.ToString(),
                                     candidateInfor.LinkedInURL,candidateInfor.GitHubURL,candidateInfor.FreeTextComment};
-                outString.AppendLine(string.Join(separator, newLine));
-                await Task.Run(() => { File.AppendAllText(fileLocation, outString.ToString()); });
-                return 1;
+                    outString.AppendLine(string.Join(separator, newLine));
+                    await Task.Run(() => { File.AppendAllText(fileLocation, outString.ToString()); });
+                    return 2;
+                }                
             }
             catch (Exception ex)
             {

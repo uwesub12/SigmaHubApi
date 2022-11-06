@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SigmaHubApi.Helper
 {
-    public class Helper
+    public class Helpers
     {
         #region CheckSpecialCharacter and Number
         public static bool CheckCharacter(string Name)

@@ -73,3 +73,4 @@ D:\SigmaProject\SigmaHubApi\SigmaHubApi\bin\Debug\netcoreapp3.1\runtimes\win\lib
 D:\SigmaProject\SigmaHubApi\SigmaHubApi\obj\Debug\netcoreapp3.1\SigmaHubApi.csproj.CopyComplete
 D:\SigmaProject\SigmaHubApi\SigmaHubApi\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\SigmaProject\SigmaHubApi\SigmaHubApi\obj\Debug\netcoreapp3.1\SigmaHubApi.csproj.AssemblyReference.cache
+D:\SigmaProject\SigmaHubApi\SigmaHubApi\bin\Debug\netcoreapp3.1\CsvHelper.dll

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "A54fpsjAC7rzXd65XHctcVSplgFsk31GQxO0gFxzsMIfgf7GHk/T4y7QiRFKfph79/i27vR6pL5s8YU3n1xb2Q==",
+  "dgSpecHash": "UAZoLGdTT5iTkenD1d/VzWuBzdSJqI7z6pHdW8Jj2nKW6DpvZForERLz4rQQ8WH5qj8ZltxPBtWSu/9hx9UR2w==",
   "success": true,
   "projectFilePath": "D:\\SigmaProject\\SigmaHubApi\\SigmaHubApi\\SigmaHubApi.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ABDILLAH\\.nuget\\packages\\csvhelper\\30.0.0\\csvhelper.30.0.0.nupkg.sha512",
     "C:\\Users\\ABDILLAH\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\ABDILLAH\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\ABDILLAH\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.2.9\\microsoft.aspnet.webapi.core.5.2.9.nupkg.sha512",
