@@ -44,7 +44,7 @@ namespace SigmaHubApi.Repository
                 }
                 if (Found == true)
                 {
-                    dataList[col] = dataList[col].Split(',')[0] + candidateInfor.FirstName + "," + candidateInfor.LastName + "," 
+                    dataList[col] = candidateInfor.FirstName + "," + candidateInfor.LastName + "," 
                         + candidateInfor.PhoneNumber + "," + candidateInfor.Email + "," + candidateInfor.TimeInterval + "," 
                         + candidateInfor.LinkedInURL + "," + candidateInfor.GitHubURL + "," + candidateInfor.FreeTextComment;
                     File.WriteAllLines(fileLocation , dataList);
