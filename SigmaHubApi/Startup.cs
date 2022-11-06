@@ -1,15 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
+using SigmaHubApi.Interface;
+using SigmaHubApi.Repository;
 
 namespace SigmaHubApi
 {
@@ -25,17 +21,32 @@ namespace SigmaHubApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("1.0", new OpenApiInfo { Title = "CRDB", Version = "1.0", Description = "CRDB API FV" });
+                services.AddCors(option => option.AddPolicy("APIPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                }));
+            });
             services.AddControllers();
+            services.AddSingleton<IDataAccessManager, DataAccessManager>();
+            services.AddSingleton<IJobCandidate, JobCandidate>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
+            }           
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/1.0/swagger.json", "CRDB API FV");
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -46,6 +57,7 @@ namespace SigmaHubApi
             {
                 endpoints.MapControllers();
             });
+            app.UseCors("APIPolicy");
         }
     }
 }
